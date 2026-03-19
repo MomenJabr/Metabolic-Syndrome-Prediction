@@ -1,8 +1,9 @@
 # Metabolic-Syndrome-Prediction
+
 ## Overview
 This project builds and evaluates multiple machine learning and deep learning models to predict metabolic syndrome using health-related features derived from NHANES data.
 
-The main goal of the project is not only to achieve good overall accuracy, but also to pay special attention to **recall for the positive class (MetSyn)**. In medical screening tasks, missing a true positive case can be more harmful than producing a false alarm. For that reason, recall was treated as an important evaluation metric throughout the project.
+The main goal of this project is not only to achieve good overall accuracy, but also to pay special attention to **recall for the positive class (MetSyn)**. In medical screening tasks, missing a true positive case can be more harmful than producing a false alarm. For that reason, recall was treated as an important evaluation metric throughout the project.
 
 ---
 
@@ -85,6 +86,18 @@ Key observations included:
 - A correlation analysis suggested multicollinearity between some variables, especially **BMI** and **Waist Circumference**.
 - Because of this, feature importance analysis was used before deciding whether redundant features should be removed.
 
+### Class Distribution
+![Class Distribution](images/Class_Distribution.png)
+
+### Correlation Heatmap
+![Correlation Heatmap](images/Correlation_heat_map.png)
+
+### Relationship Between Blood Glucose and Metabolic Syndrome
+![Relationship Between Blood Glucose and Metabolic Syndrome](images/BloodGlucose%20vs%20metabolic.png)
+
+### Relationship Between Triglycerides and Metabolic Syndrome
+![Relationship Between Triglycerides and Metabolic Syndrome](images/Triglycerides%20vs%20metabolic.png)
+
 ---
 
 ## Models Evaluated
@@ -118,7 +131,7 @@ Because this is a medical screening problem, the positive-class recall for `MetS
 
 | Model | Test Precision (MetSyn) | Test Recall (MetSyn) | Test F1 (MetSyn) | Test Accuracy | Interpretation |
 |------|--------------------------:|---------------------:|-----------------:|--------------:|----------------|
-| Tuned Random Forest | 0.84 | 0.76 | 0.80 | 0.87 | Strong overall performance, but recall is lower than the recall-tuned logistic model |
+| Tuned Random Forest | 0.84 | 0.76 | 0.80 | 0.87 | Strong overall performance, but recall is lower than the recall-focused logistic model |
 | Tuned Logistic Regression (Recall-focused) | 0.64 | 0.82 | 0.72 | 0.78 | Best option when maximizing sensitivity is the main goal |
 | Tuned Logistic Regression (F1-focused) | 0.72 | 0.80 | 0.76 | 0.83 | Best balanced and most interpretable final model |
 | ANN Baseline | 0.77 | 0.75 | 0.76 | 0.84 | Competitive, but not clearly better than Logistic Regression |
@@ -139,7 +152,10 @@ It provided the best overall balance between:
 
 Although the recall-focused Logistic Regression model achieved slightly higher recall, the F1-tuned Logistic Regression model gave a more balanced and cleaner final result for presentation.
 
-### Recommended interpretation
+### Final Model Confusion Matrix
+![Final Model Confusion Matrix](images/logreg_f1tuned_test.png)
+
+### Recommended Interpretation
 - If the goal is **medical screening** and minimizing missed cases is the top priority, the **recall-focused Logistic Regression** is a strong option.
 - If the goal is **best overall final model for GitHub presentation**, the **F1-tuned Logistic Regression** is the best choice.
 
@@ -160,6 +176,9 @@ These findings are reasonable and support the medical relevance of the model.
 
 An additional observation was that **BMI and Waist Circumference showed overlap**, and Waist Circumference often appeared more informative than BMI in the stronger models.
 
+### Feature Importance of the Final Model
+![Feature Importance](images/logreg_f1tuned_importance.png)
+
 ---
 
 ## PCA and Feature Engineering
@@ -175,6 +194,9 @@ A neural network was also trained to compare deep learning against classical mod
 The baseline ANN performed reasonably well, but it did not clearly outperform the stronger Logistic Regression model on the held-out test set.
 
 A tuned ANN variant achieved high recall, but this came at the cost of a large drop in precision and overall accuracy. Because of that, it was treated as an experimental high-recall model rather than the final recommended model.
+
+### ANN Training History
+![ANN Training History](images/ANN.png)
 
 ---
 
@@ -194,3 +216,31 @@ This project shows that relatively simple and interpretable models can perform v
 Among all evaluated models, **tuned Logistic Regression** provided the strongest combination of recall, balance, and interpretability. The results also showed that clinically relevant metabolic indicators such as triglycerides, waist circumference, blood glucose, and HDL played the most important role in prediction.
 
 Overall, this project highlights that model selection in healthcare-related tasks should be guided not only by accuracy, but also by the real-world cost of false negatives and false positives.
+
+---
+
+## Repository Structure
+```bash
+Metabolic-Syndrome-Prediction/
+│
+├── Metabolic_Syndrome_Prediction.ipynb
+├── README.md
+└── images/
+    ├── Triglycerides vs metabolic.png
+    ├── BloodGlucose vs metabolic.png
+    ├── logreg_f1tuned_importance.png
+    ├── logreg_tuned_importance.png
+    ├── rf_tuned_importance.png
+    ├── logreg_f1tuned_test.png
+    ├── logreg_f1tuned_train.png
+    ├── logreg_tuned_test.png
+    ├── logreg_tuned_train.png
+    ├── logreg_raw_test.png
+    ├── logreg_raw_train.png
+    ├── rf_tuned_test.png
+    ├── rf_tuned_train.png
+    ├── rf_raw_test.png
+    ├── rf_raw_train.png
+    ├── ANN.png
+    ├── Correlation_heat_map.png
+    └── Class_Distribution.png
